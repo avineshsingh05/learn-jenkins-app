@@ -23,7 +23,8 @@ pipeline {
             }
         }
         */
-        
+        stage ('Run Tests') {
+            parallel {
         stage ('Test') {
             agent {
                 docker{
@@ -55,6 +56,11 @@ pipeline {
                 '''
             }
         }
+
+            }
+        }
+        
+ 
     }
     
 
