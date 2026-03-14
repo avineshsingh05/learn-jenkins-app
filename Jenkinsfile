@@ -25,21 +25,22 @@ pipeline {
         */
         stage ('Tests') {
             parallel {
-        stage (' Unit Tests') {
-            agent {
-                docker{
-                    image 'node:18-alpine'
-                    reuseNode true
+                 stage (' Unit Tests') {
+                     agent {
+                          docker{
+                          image 'node:18-alpine'
+                           reuseNode true
+                        }
+                        }  
+                        steps{
+                             sh '''
+                                test -f build/index.html
+                                npm test
+                                '''
+                            }
+                    }   
                 }
-            }
-            steps{
-                sh '''
-                test -f build/index.html
-                npm test
-                '''
-            }
         }
-
         stage ('E2E') {
             agent {
                 docker{
@@ -57,11 +58,7 @@ pipeline {
             }
         }
 
-            }
-        }
-        
- 
-    }
+
         stage('Deploy') {
             agent {
                 docker{
@@ -86,5 +83,4 @@ pipeline {
             publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, icon: '', keepAll: false, reportDir: 'playwright-report', reportFiles: 'index.html', reportName: 'playwright HTML Report', reportTitles: '', useWrapperFileDirectly: true])
         }
     }
-}
 }
