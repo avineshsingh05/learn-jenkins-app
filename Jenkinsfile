@@ -3,7 +3,8 @@ pipeline {
 
     stages {
 
-        stage ('Build') {
+        /*
+        stage('Build') {
             agent {
                 docker{
                     image 'node:18-alpine'
@@ -21,7 +22,7 @@ pipeline {
                 '''
             }
         }
-       
+        */
         stage ('Tests') {
             parallel {
                  stage (' Unit Tests') {
@@ -56,12 +57,6 @@ pipeline {
                 '''
             }
         }
-        post{
-            always{
-                junit 'jest-results/junit.xml'
-                publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, icon: '', keepAll: false, reportDir: 'playwright-report', reportFiles: 'index.html', reportName: 'playwright HTML Report', reportTitles: '', useWrapperFileDirectly: true])
-            }
-        }
 
             }
         }
@@ -77,7 +72,7 @@ pipeline {
                  steps {
                         sh ''' 
                              npm install netlify-cli
-                             node_modules/.bin/netlify --version
+                            node_modules/.bin/netlify --version
                         '''
             
             
@@ -85,5 +80,10 @@ pipeline {
                 
             }    
     
-   
+    post{
+        always{
+            junit 'jest-results/junit.xml'
+            publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, icon: '', keepAll: false, reportDir: 'playwright-report', reportFiles: 'index.html', reportName: 'playwright HTML Report', reportTitles: '', useWrapperFileDirectly: true])
+        }
+    }
 
