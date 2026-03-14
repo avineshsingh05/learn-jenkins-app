@@ -70,11 +70,12 @@ pipeline {
                     reuseNode true
                 }
             }
-            steps {
-                sh ''' 
-                   npm install netlify-cli
-                   node_modules/.bin/netlify --version
-                '''
+
+                 steps {
+                     sh ''' 
+                      npm install netlify-cli
+                    node_modules/.bin/netlify --version
+                     '''
           
         
             }   
