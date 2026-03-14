@@ -58,32 +58,32 @@ pipeline {
             }
         }
 
+ 
         stage('Deploy') {
-                agent {
-                    docker{
-                        image 'node:18-alpine'
-                        reuseNode true
+                    agent {
+                        docker{
+                            image 'node:18-alpine'
+                            reuseNode true
+                        }
                     }
-                }
 
-                 steps {
-                        sh ''' 
-                             npm install netlify-cli@20.1.1
-                             node_modules/.bin/netlify --version
-                        '''
-            
-            
-                }   
+                    steps {
+                            sh ''' 
+                                npm install netlify-cli@20.1.1
+                                node_modules/.bin/netlify --version
+                            '''
                 
-            }    
+                
+                    }   
+                    
+                }        
+           
     
         post{
-           always{
-            junit 'jest-results/junit.xml'
-            publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, icon: '', keepAll: false, reportDir: 'playwright-report', reportFiles: 'index.html', reportName: 'playwright HTML Report', reportTitles: '', useWrapperFileDirectly: true])
+            always{
+                junit 'jest-results/junit.xml'
+                publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, icon: '', keepAll: false, reportDir: 'playwright-report', reportFiles: 'index.html', reportName: 'playwright HTML Report', reportTitles: '', useWrapperFileDirectly: true])
+            }
         }
     }
-
-    }
-}
-
+}    
