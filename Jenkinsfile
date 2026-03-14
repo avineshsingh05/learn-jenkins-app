@@ -57,6 +57,12 @@ pipeline {
                 '''
             }
         }
+                post{
+            always{
+                junit 'jest-results/junit.xml'
+                publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, icon: '', keepAll: false, reportDir: 'playwright-report', reportFiles: 'index.html', reportName: 'playwright HTML Report', reportTitles: '', useWrapperFileDirectly: true])
+            }
+        }
 
             }
         }
@@ -69,10 +75,10 @@ pipeline {
                     }
                 }
 
-                    steps {
+                 steps {
                         sh ''' 
-                        npm install netlify-cli
-                        node_modules/.bin/netlify --version
+                             npm install netlify-cli
+                             node_modules/.bin/netlify --version
                         '''
             
             
@@ -80,10 +86,5 @@ pipeline {
                 
             }    
     
-    post{
-        always{
-            junit 'jest-results/junit.xml'
-            publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, icon: '', keepAll: false, reportDir: 'playwright-report', reportFiles: 'index.html', reportName: 'playwright HTML Report', reportTitles: '', useWrapperFileDirectly: true])
-        }
-    }
+   
 
