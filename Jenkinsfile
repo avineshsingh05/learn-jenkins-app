@@ -74,7 +74,11 @@ pipeline {
                    npm install netlify-cli -g
                    netlify --version
                 '''
-            }    
+          
+        
+            }   
+            
+         }    
     
     post{
         always{
