@@ -85,6 +85,7 @@ pipeline {
                             reuseNode true
                         }
                     }
+        }    
 
                     steps {
                             sh ''' 
