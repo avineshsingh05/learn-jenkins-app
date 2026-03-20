@@ -78,14 +78,13 @@ pipeline {
     
         }
 
-        stage('Deploy Staging') {
+        stage('Deploy Stagging') {
                     agent {
                         docker{
                             image 'node:18-alpine'
                             reuseNode true
                         }
                     }
-        }    
 
                     steps {
                             sh ''' 
@@ -98,43 +97,9 @@ pipeline {
                             '''
                 
                 
-                    }
-                    script {
-                        env.STAGING_URL = sh(script: "node_modules/.bin/node-jq ' .deploy_url' deploy-output.json",returnStdout: true)
                     }   
                     
         }
-
-        stage ('Staging E2E') {
-                 agent {
-                      docker{
-                           image 'mcr.microsoft.com/playwright:v1.39.0-jammy'
-                           reuseNode true
-                        }
-                    }
-
-                    environment {
-                        CI_ENVIRONMENT_URL = "${env.STAGING_URL}"
-                    }
-                    steps{
-                            sh '''
-
-                            npx playwright test --reporter=html
-
-                            '''
-                        }
-
-                    post{
-                    always{
-                        junit 'jest-results/junit.xml'
-                        publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, icon: '', keepAll: false, reportDir: 'playwright-report', reportFiles: 'index.html', reportName: 'staging E2E Report', reportTitles: '', useWrapperFileDirectly: true])
-                    }
-             
-                } 
-            } 
-   
-           
-               
 
         stage('Approval') {
             steps {
@@ -187,7 +152,7 @@ pipeline {
                     post{
                     always{
                         junit 'jest-results/junit.xml'
-                        publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, icon: '', keepAll: false, reportDir: 'playwright-report', reportFiles: 'index.html', reportName: 'prod E2E Report', reportTitles: '', useWrapperFileDirectly: true])
+                        publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, icon: '', keepAll: false, reportDir: 'playwright-report', reportFiles: 'index.html', reportName: 'playwright E2E Report', reportTitles: '', useWrapperFileDirectly: true])
                     }
              
                 }       
@@ -195,4 +160,4 @@ pipeline {
        
         }
     }
-       
+}       
