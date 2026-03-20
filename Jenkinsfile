@@ -130,10 +130,11 @@ pipeline {
                         publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, icon: '', keepAll: false, reportDir: 'playwright-report', reportFiles: 'index.html', reportName: 'staging E2E Report', reportTitles: '', useWrapperFileDirectly: true])
                     }
              
-                }       
+                } 
+            } 
+   
            
-       
-        }        
+               
 
         stage('Approval') {
             steps {
