@@ -93,10 +93,10 @@ pipeline {
                                 echo "Deploying to Stagging. Site ID: $NETLIFY_SITE_ID"
                                 node_modules/.bin/netlify status
                                 node_modules/.bin/netlify deploy --dir=build --json > deploy-output.json
-                                node_modules/.bin/node-jq ' .deploy_url' deploy-output.json
+                                node_modules/.bin/node-jq -r '.deploy_url' deploy-output.json
                             '''
-                             script {
-                             env.STAGING_URL = sh(script: "node_modules/.bin/node-jq ' .deploy_url' deploy-output.json", returnStdout: true)
+                            script {
+                             env.STAGING_URL = sh(script: "node_modules/.bin/node-jq  -r '.deploy_url' deploy-output.json", returnStdout: true)
                             }   
                 
                 
@@ -187,7 +187,7 @@ pipeline {
                     post{
                     always{
                         junit 'jest-results/junit.xml'
-                        publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, icon: '', keepAll: false, reportDir: 'playwright-report', reportFiles: 'index.html', reportName: 'prod E2E Report', reportTitles: '', useWrapperFileDirectly: true])
+                        publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, icon: '', keepAll: false, reportDir: 'playwright-report', reportFiles: 'index.html', reportName: ' prod E2E Report', reportTitles: '', useWrapperFileDirectly: true])
                     }
              
                 }       
